@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1503711-baca-42fc-b0e8-cee7d87a3ca3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/img/banner/1.jpg" afterPath="$PROJECT_DIR$/img/banner/1.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/img/banner/2.jpg" afterPath="$PROJECT_DIR$/img/banner/2.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/banner.js" afterPath="$PROJECT_DIR$/js/banner.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ban.iws" />
@@ -50,14 +46,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="banner.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="banner.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/banner.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="37" selection-start="168" selection-end="168" vertical-scroll-proportion="0.25126645">
+            <state line="8" column="37" selection-start="168" selection-end="168" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="36" selection-start="92" selection-end="92" vertical-scroll-proportion="0.12889813">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="MarkdownPreviewEditor">
+            <state />
           </provider>
         </entry>
       </file>
@@ -94,6 +102,7 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/banner.js" />
         <option value="$PROJECT_DIR$/LICENSE.txt" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -314,7 +323,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1677" y="12" width="1926" height="1082" extended-state="6" />
+    <frame x="1677" y="12" width="1926" height="1082" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -468,11 +477,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/banner.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="37" selection-start="168" selection-end="168" vertical-scroll-proportion="0.25126645">
+        <state line="8" column="37" selection-start="168" selection-end="168" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="36" selection-start="92" selection-end="92" vertical-scroll-proportion="0.12889813">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
       </provider>
     </entry>
   </component>
