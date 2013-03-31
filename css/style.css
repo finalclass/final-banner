@@ -1,0 +1,45 @@
+.banner {
+    height: 238px;
+    width: 926px;
+    overflow: hidden;
+    display: block;
+    margin: 34px 2px 68px 2px;
+    border: solid 5px #000;
+    position: relative;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
+.banner .banner-prev-image, .banner .banner-next-image {
+    position: absolute;
+    top: 80px;
+    cursor: pointer;
+}
+
+.banner .banner-prev-image:hover, .banner .banner-next-image:hover {
+    opacity: 0.8;
+}
+
+.banner .banner-prev-image {
+    left: 0;
+}
+
+.banner .banner-next-image {
+    right: 0;
+}
+
+.banner-prev-image {
+    background: url('../img/banner-prev.png') 0 0 no-repeat transparent;
+    display: block;
+    width: 38px;
+    height: 70px;
+}
+
+.banner-next-image {
+    background: url('../img/banner-next.png') 0 0 no-repeat transparent;
+    display: block;
+    width: 38px;
+    height: 70px;
+}
