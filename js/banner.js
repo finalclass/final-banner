@@ -6,7 +6,7 @@
 
     /**
      * @author Szymon Wygnański (s@finalclass.net)
-     * @license MIT
+     * @license MIT (see LICENSE.txt)
      */
 
 
