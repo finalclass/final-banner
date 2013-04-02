@@ -20,7 +20,7 @@ $(function () {
 
     $('#start').click(function () {
         $('.banner').finalBanner('start');
-    })
+    });
 
 });
 
