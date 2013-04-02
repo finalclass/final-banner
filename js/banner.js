@@ -1,8 +1,10 @@
 /*jslint browser:true*/
-/*global $*/
+/*global jQuery*/
 
 (function () {
     'use strict';
+
+    var $ = jQuery;
 
     /**
      * @author Szymon Wygnański (s@finalclass.net)
@@ -39,6 +41,7 @@
         this.interval = interval;
         this.tickCount = 0;
         this.id;
+        this.isRunning = false;
 
         this.onTimer = $.proxy(this.onTimer, this);
     }
@@ -49,11 +52,15 @@
     $.extend(Timer.prototype, /** @lends Timer.prototype */ {
 
         start: function () {
-            this.id = setInterval(this.onTimer, this.interval);
+            if (!this.isRunning) {
+                this.id = setInterval(this.onTimer, this.interval);
+                this.isRunning = true;
+            }
         },
 
         stop: function () {
             clearInterval(this.id);
+            this.isRunning = false;
         },
 
         onTimer: function () {
@@ -216,12 +223,14 @@
      *
      * @constructor
      */
-    var Banner = function ($container, switchTime, animationSpeed) {
+    var FinalBanner = function ($container, switchTime, animationSpeed) {
         this.$container = $container;
         this.animationSpeed = animationSpeed;
         this.$prev = $('<div class="banner-prev-image"></div>');
         this.$next = $('<div class="banner-next-image"></div>');
         this.canvas = $('<canvas/>')[0];
+        this.canvas.width = $container.width();
+        this.canvas.height = $container.height();
         this.ctx = this.canvas.getContext('2d');
         this.timer = new Timer(switchTime);
         this.images = [];
@@ -243,37 +252,13 @@
         this.canvas.height = 238;
     };
 
-    Banner.prototype = {
+    FinalBanner.prototype = {
 
-        animate: function (array, directory) {
+        animate: function (paths, pathsPrefix) {
             var loader = new ImagesLoader();
 
-            loader.load(array, directory);
+            loader.load(paths, pathsPrefix);
             loader.on(ImagesLoader.COMPLETE, this.onImagesLoadComplete);
-        },
-
-        onImagesLoadComplete: function (event, imagesArray) {
-            this.images = this.images.concat(imagesArray);
-            this.timer.start();
-
-            this.$container.empty()
-                .append(this.$prev)
-                .append(this.$next)
-                .append(this.canvas);
-
-            this.showCurrentImage();
-        },
-
-        onTimer: function (event, tickCount) {
-            this.showNextImage();
-        },
-
-        onAnimationComplete: function (event) {
-            this.showCurrentImage();
-        },
-
-        onAnimationTick: function (event, imgData) {
-            this.ctx.putImageData(imgData, 0, 0);
         },
 
         showCurrentImage: function () {
@@ -309,6 +294,14 @@
             this.animation.on(BannerSlideAnimation.COMPLETE, this.onAnimationComplete);
             this.animation.on(BannerSlideAnimation.TICK, this.onAnimationTick);
             this.animation.start();
+        },
+
+        stop: function () {
+            this.timer.stop();
+        },
+
+        start: function () {
+            this.timer.start();
         },
 
         showNextImage: function () {
@@ -347,25 +340,111 @@
             this.animatedPhotosSwitch(pos1, pos2, -1);
         },
 
-        onNextClick: function (event) {
-            this.timer.stop();
-            this.showNextImage();
-            this.timer.start();
-        },
-
-        onPrevClick: function (event) {
-            this.timer.stop();
-            this.showPrevImage();
-            this.timer.start();
-        },
-
         isSupported: function () {
             var elem = document.createElement('canvas');
             return !!(elem.getContext && elem.getContext('2d'));
+        },
+
+        // -------------------------------------------------------------
+        //
+        // Event Handlers
+        //
+        // -------------------------------------------------------------
+
+        onNextClick: function (event) {
+            var wasRunning = this.timer.isRunning;
+
+            this.stop();
+            this.showNextImage();
+            if (wasRunning) {
+                this.start();
+            }
+        },
+
+        onPrevClick: function (event) {
+            var wasRunning = this.timer.isRunning;
+
+            this.stop();
+            this.showPrevImage();
+            if (wasRunning) {
+                this.start();
+            }
+        },
+
+        onImagesLoadComplete: function (event, imagesArray) {
+            this.images = this.images.concat(imagesArray);
+            this.timer.start();
+
+            this.$container.empty()
+                .append(this.$prev)
+                .append(this.$next)
+                .append(this.canvas);
+
+            this.showCurrentImage();
+        },
+
+        onTimer: function (event, tickCount) {
+            this.showNextImage();
+        },
+
+        onAnimationComplete: function (event) {
+            this.showCurrentImage();
+        },
+
+        onAnimationTick: function (event, imgData) {
+            this.ctx.putImageData(imgData, 0, 0);
         }
 
     };
 
-    window.Banner = Banner;
+
+    /**
+     * Let it be visible in global scope
+     */
+    window.FinalBanner = FinalBanner;
+
+    /**
+     * JQuery Plugin
+     */
+    $.fn.finalBanner = function( options ) {
+
+        var settings, method, args;
+
+        if (typeof options === 'string') {
+            method = options;
+            args = Array.prototype.slice.call(arguments, [1]); //remove first argument (method name)
+        } else {
+            settings = $.extend( {
+                switchTime: 5000,
+                animationSpeed: 100,
+                pathsPrefix: '',
+                paths: []
+            }, options);
+        }
+
+        return this.each(function() {
+            var $this = $(this),
+                banner;
+
+            if (method !== undefined) {
+                banner = $this.data('finalBanner');
+                banner[method].call(banner, args);
+                return $this;
+            }
+
+            if ($this.data('finalBanner') !== undefined) {
+                return;
+            }
+
+            banner = new FinalBanner($(this), settings.switchTime, settings.animationSpeed);
+
+            if (banner.isSupported) {
+                banner.animate(settings.paths, settings.pathsPrefix);
+                $this.data('finalBanner', banner);
+            }
+            return $this;
+        });
+
+    };
 
 })();

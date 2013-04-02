@@ -7,14 +7,20 @@ $(function () {
     /**
      * Create animated banner
      */
-    $('.banner').each(function () {
-        var banner = new Banner($(this), 5000, 100);
-
-        if (banner.isSupported) {
-            banner.animate(['1.jpg', '2.jpg'],'img/banner/');
-        }
-
+    $('.banner').finalBanner({
+        switchTime: 2000,
+        animationSpeed: 100,
+        paths: ['1.jpg', '2.jpg'],
+        pathsPrefix: 'img/banner/'
     });
+
+    $('#stop').click(function () {
+        $('.banner').finalBanner('stop');
+    });
+
+    $('#start').click(function () {
+        $('.banner').finalBanner('start');
+    })
 
 });
 
