@@ -248,8 +248,8 @@
         this.$next.bind('click', this.onNextClick);
         this.timer.on(Timer.TICK,  this.onTimer);
 
-        this.canvas.width = 926;
-        this.canvas.height = 238;
+        this.canvas.width = $container.width();
+        this.canvas.height = $container.height();
     };
 
     FinalBanner.prototype = {
@@ -294,6 +294,24 @@
             this.animation.on(BannerSlideAnimation.COMPLETE, this.onAnimationComplete);
             this.animation.on(BannerSlideAnimation.TICK, this.onAnimationTick);
             this.animation.start();
+            this.notifyImageChange();
+        },
+
+        setPosition: function (pos) {
+            var pos1, pos2, wasRunning = this.timer.isRunning;
+
+            if (this.animation && this.animation.isRunning) {
+                return;
+            }
+
+            pos1 = this.position;
+            this.position = (pos) % (this.images.length);
+            pos2 = this.position;
+            this.stop();
+            if (wasRunning) {
+                this.start();
+            }
+            this.animatedPhotosSwitch(pos1, pos2, +1);
         },
 
         stop: function () {
@@ -345,11 +363,27 @@
             return !!(elem.getContext && elem.getContext('2d'));
         },
 
+        notifyImageChange: function () {
+            this.$container.trigger('bannerChange', [this.position]);
+        },
+
         // -------------------------------------------------------------
         //
         // Event Handlers
         //
         // -------------------------------------------------------------
+
+        onImagesLoadComplete: function (event, imagesArray) {
+            this.images = this.images.concat(imagesArray);
+            this.timer.start();
+
+            this.$container.empty()
+                .append(this.$prev)
+                .append(this.$next)
+                .append(this.canvas);
+
+            this.showCurrentImage();
+        },
 
         onNextClick: function (event) {
             var wasRunning = this.timer.isRunning;
@@ -369,18 +403,6 @@
             if (wasRunning) {
                 this.start();
             }
-        },
-
-        onImagesLoadComplete: function (event, imagesArray) {
-            this.images = this.images.concat(imagesArray);
-            this.timer.start();
-
-            this.$container.empty()
-                .append(this.$prev)
-                .append(this.$next)
-                .append(this.canvas);
-
-            this.showCurrentImage();
         },
 
         onTimer: function (event, tickCount) {
@@ -428,7 +450,9 @@
 
             if (method !== undefined) {
                 banner = $this.data('finalBanner');
-                banner[method].call(banner, args);
+                if (banner.isSupported()) {
+                    banner[method].call(banner, args);
+                }
                 return $this;
             }
 
@@ -438,7 +462,7 @@
 
             banner = new FinalBanner($(this), settings.switchTime, settings.animationSpeed);
 
-            if (banner.isSupported) {
+            if (banner.isSupported()) {
                 banner.animate(settings.paths, settings.pathsPrefix);
                 $this.data('finalBanner', banner);
             }

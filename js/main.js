@@ -14,7 +14,7 @@ $(function () {
         pathsPrefix: 'img/banner/'
     });
 
-    $('#stop').click(function () {
+    $('#stop').click(function (event) {
         $('.banner').finalBanner('stop');
     });
 
